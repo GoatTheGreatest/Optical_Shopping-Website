@@ -1,0 +1,30 @@
+{
+  "2025": [
+    { "month": "Jan", "sales": 0 },
+    { "month": "Feb", "sales": 0 },
+    { "month": "Mar", "sales": 0 },
+    { "month": "Apr", "sales": 0 },
+    { "month": "May", "sales": 0 },
+    { "month": "Jun", "sales": 0 },
+    { "month": "Jul", "sales": 0 },
+    { "month": "Aug", "sales": 0 },
+    { "month": "Sep", "sales": 0 },
+    { "month": "Oct", "sales": 0 },
+    { "month": "Nov", "sales": 0 },
+    { "month": "Dec", "sales": 0 }
+  ],
+  "2024": [
+    { "month": "Jan", "sales": 120 },
+    { "month": "Feb", "sales": 200 },
+    { "month": "Mar", "sales": 150 },
+    { "month": "Apr", "sales": 220 },
+    { "month": "May", "sales": 300 },
+    { "month": "Jun", "sales": 180 },
+    { "month": "Jul", "sales": 240 },
+    { "month": "Aug", "sales": 260 },
+    { "month": "Sep", "sales": 210 },
+    { "month": "Oct", "sales": 190 },
+    { "month": "Nov", "sales": 230 },
+    { "month": "Dec", "sales": 270 }
+  ]
+}
