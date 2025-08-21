@@ -5,28 +5,52 @@ import { useState, useEffect, useRef } from "react";
 export default function InventoryMenu() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const hoverTimerRef = useRef(null);
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setOpen(false);
       }
     }
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
+  function handleMouseEnter() {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+    setOpen(true);
+  }
+
+  function handleMouseLeave() {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => setOpen(false), 180);
+  }
+
   return (
     <div
-      className="relative inline-block group"
+      className="relative inline-block"
       ref={menuRef}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className="mr-2 p-4 border-green-400 border rounded-4xl hover:bg-green-600 hover:cursor-pointer text-white"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((prev) => !prev)}
+        role="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         Inventory
       </div>
@@ -84,10 +108,10 @@ export default function InventoryMenu() {
             </li>
             <li>
               <Link
-                href="/sales-in-hand"
+                href="/stock-in-hand"
                 className="block px-4 py-2 text-sm hover:bg-gray-100"
               >
-                Sales in Hand
+                Stock in Hand
               </Link>
             </li>
           </ul>

@@ -1,7 +1,7 @@
 import React from "react";
 import { MoreVertical } from "lucide-react";
 import { RefreshCw, Plus } from "lucide-react";
-
+import Link from "next/link";
 const rows = [
   { id: 1, brand: "hjj", type: "Lens", remarks: "", active: true },
   { id: 2, brand: "gucci", type: "Lens", remarks: "yu", active: true },
@@ -46,10 +46,12 @@ function Brands() {
             <RefreshCw className="w-5 h-5" />
             <span>Refresh</span>
           </button>
-          <button className="p-2 hover:-translate-0.5 duration-300 flex items-center justify-center bg-[#22C55E] space-x-4 border-1 border-gray-500 rounded-sm text-white">
-            <Plus className="w-5 h-5" />
-            <span>Add New Brand</span>
-          </button>
+          <Link href="/brands/create">
+            <button className="p-2 hover:-translate-0.5 duration-300 flex items-center justify-center bg-[#22C55E] space-x-4 border-1 border-gray-500 rounded-sm text-white">
+              <Plus className="w-5 h-5" />
+              <span>Add New Brand</span>
+            </button>
+          </Link>
         </div>
       </div>
       <div className="w-full bg-white rounded-md border border-gray-100 shadow-sm overflow-hidden">

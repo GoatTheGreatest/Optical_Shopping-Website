@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import InventoryMenu from "./Inventory_Button";
+import ReportsMenu from "./Reports_Menu";
 function Navbar() {
   return (
     <div>
@@ -35,12 +36,7 @@ function Navbar() {
             Order
           </Link>
           <InventoryMenu />
-          <Link
-            href="/"
-            className="mr-2 p-4 border-green-400 border-1 rounded-4xl hover:bg-green-600 hover:cursor-pointer"
-          >
-            Reports
-          </Link>
+          <ReportsMenu />
           <Link
             href="/analytics"
             className="mr-2 p-4 border-green-400 border-1 rounded-4xl hover:bg-green-600 hover:cursor-pointer"
