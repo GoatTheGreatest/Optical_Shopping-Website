@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -121,9 +122,9 @@ export default function Page() {
             </form>
             <div className="mt-4 text-center text-sm">
               Or{" "}
-              <a className="text-green-600 hover:underline" href="#">
+              <Link className="text-green-600 hover:underline" href="/signup">
                 Register Now!
-              </a>
+              </Link>
             </div>
           </div>
         </div>
