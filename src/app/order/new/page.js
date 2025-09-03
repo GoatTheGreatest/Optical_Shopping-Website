@@ -1,51 +1,56 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Save, Plus, X, Calendar, Copy } from 'lucide-react';
-import { isFieldEnabled, renderIfEnabled } from '../../lib/orderSettings';
-import { isPrescriptionFieldEnabled, renderIfPrescriptionEnabled } from '../../lib/prescriptionSettings';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowLeft, Save, Plus, X, Calendar, Copy } from "lucide-react";
+import { isFieldEnabled, renderIfEnabled } from "@/lib/orderSettings";
+import {
+  isPrescriptionFieldEnabled,
+  renderIfPrescriptionEnabled,
+} from "@/lib/prescriptionSettings";
 
 export default function NewOrder() {
-  const [products, setProducts] = useState([{ make: '', color: '', frame: '', lenses: '' }]);
+  const [products, setProducts] = useState([
+    { make: "", color: "", frame: "", lenses: "" },
+  ]);
   const [totalCharges, setTotalCharges] = useState(0);
   const [deposit, setDeposit] = useState(0);
   const [balance, setBalance] = useState(0);
   const [formData, setFormData] = useState({
-    customerName: '',
-    customerAddress: '',
-    orderDate: '',
-    deliveryDate: '',
-    reference: '',
-    doctorName: '',
-    orderType: 'Spectacle',
-    salesPerson: 'arslan nafees',
-    remarks: '',
-    frameSize: '',
-    framePrice: '',
-    lensesPrice: '',
+    customerName: "",
+    customerAddress: "",
+    orderDate: "",
+    deliveryDate: "",
+    reference: "",
+    doctorName: "",
+    orderType: "Spectacle",
+    salesPerson: "arslan nafees",
+    remarks: "",
+    frameSize: "",
+    framePrice: "",
+    lensesPrice: "",
     rightEye: {
-      sphere: '',
-      cylinder: '',
-      axis: '',
-      addition: '',
-      dia: '',
-      bc: '',
-      segment: '',
-      pupillaryDistance: '',
-      prism: ''
+      sphere: "",
+      cylinder: "",
+      axis: "",
+      addition: "",
+      dia: "",
+      bc: "",
+      segment: "",
+      pupillaryDistance: "",
+      prism: "",
     },
     leftEye: {
-      sphere: '',
-      cylinder: '',
-      axis: '',
-      addition: '',
-      dia: '',
-      bc: '',
-      segment: '',
-      pupillaryDistance: '',
-      prism: ''
-    }
+      sphere: "",
+      cylinder: "",
+      axis: "",
+      addition: "",
+      dia: "",
+      bc: "",
+      segment: "",
+      pupillaryDistance: "",
+      prism: "",
+    },
   });
 
   useEffect(() => {
@@ -54,42 +59,47 @@ export default function NewOrder() {
   }, []);
 
   const setDefaultDate = () => {
-    const today = new Date().toISOString().split('T')[0];
-    setFormData(prev => ({ ...prev, orderDate: today }));
+    const today = new Date().toISOString().split("T")[0];
+    setFormData((prev) => ({ ...prev, orderDate: today }));
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleEyeChange = (eye, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [eye]: {
         ...prev[eye],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
   const addProduct = () => {
-    setProducts(prev => [...prev, { make: '', color: '', frame: '', lenses: '' }]);
+    setProducts((prev) => [
+      ...prev,
+      { make: "", color: "", frame: "", lenses: "" },
+    ]);
   };
 
   const removeProduct = (index) => {
     if (products.length > 1) {
-      setProducts(prev => prev.filter((_, i) => i !== index));
+      setProducts((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   const updateProduct = (index, field, value) => {
-    setProducts(prev => prev.map((product, i) => 
-      i === index ? { ...product, [field]: value } : product
-    ));
+    setProducts((prev) =>
+      prev.map((product, i) =>
+        i === index ? { ...product, [field]: value } : product
+      )
+    );
   };
 
   const updatePayments = () => {
@@ -111,13 +121,13 @@ export default function NewOrder() {
       deposit,
       balance,
       id: Date.now().toString(),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
   };
 
   const saveOrder = (orderData) => {
     try {
-      const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
       const newOrder = {
         id: orderData.id,
         customer: orderData.customerName,
@@ -125,75 +135,81 @@ export default function NewOrder() {
         date: orderData.orderDate,
         deliveryDate: orderData.deliveryDate,
         total: orderData.totalCharges,
-        ...orderData
+        ...orderData,
       };
-      
+
       existingOrders.push(newOrder);
-      localStorage.setItem('orders', JSON.stringify(existingOrders));
+      localStorage.setItem("orders", JSON.stringify(existingOrders));
       return true;
     } catch (e) {
-      console.error('Error saving order:', e);
+      console.error("Error saving order:", e);
       return false;
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (!formData.customerName || !formData.orderDate || !formData.deliveryDate || !formData.orderType || !formData.salesPerson) {
-      alert('Please fill in all required fields.');
+
+    if (
+      !formData.customerName ||
+      !formData.orderDate ||
+      !formData.deliveryDate ||
+      !formData.orderType ||
+      !formData.salesPerson
+    ) {
+      alert("Please fill in all required fields.");
       return;
     }
-    
+
     const orderData = collectFormData();
-    console.log('Order submitted:', orderData);
-    
+    console.log("Order submitted:", orderData);
+
     if (saveOrder(orderData)) {
-      alert('Order saved successfully!');
+      alert("Order saved successfully!");
       resetForm();
     } else {
-      alert('Error saving order. Please try again.');
+      alert("Error saving order. Please try again.");
     }
   };
 
   const resetForm = () => {
     setFormData({
-      customerName: '',
-      customerAddress: '',
-      orderDate: '',
-      deliveryDate: '',
-      reference: '',
-      doctorName: '',
-      orderType: 'Spectacle',
-      salesPerson: 'arslan nafees',
-      remarks: '',
-      frameSize: '',
-      framePrice: '',
-      lensesPrice: '',
-      rightEye: { 
-        sphere: '', 
-        cylinder: '', 
-        axis: '', 
-        addition: '', 
-        dia: '', 
-        bc: '',
-        segment: '',
-        pupillaryDistance: '',
-        prism: ''
+      customerName: "",
+      customerAddress: "",
+      orderDate: "",
+      deliveryDate: "",
+      reference: "",
+      doctorName: "",
+      orderType: "Spectacle",
+      salesPerson: "arslan nafees",
+      remarks: "",
+      frameSize: "",
+      framePrice: "",
+      lensesPrice: "",
+      rightEye: {
+        sphere: "",
+        cylinder: "",
+        axis: "",
+        addition: "",
+        dia: "",
+        bc: "",
+        segment: "",
+        pupillaryDistance: "",
+        prism: "",
       },
-      leftEye: { 
-        sphere: '', 
-        cylinder: '', 
-        axis: '', 
-        addition: '', 
-        dia: '', 
-        bc: '',
-        segment: '',
-        pupillaryDistance: '',
-        prism: ''
-      }
+      leftEye: {
+        sphere: "",
+        cylinder: "",
+        axis: "",
+        addition: "",
+        dia: "",
+        bc: "",
+        segment: "",
+        pupillaryDistance: "",
+        prism: "",
+      },
     });
-    setProducts([{ make: '', color: '', frame: '', lenses: '' }]);
+    setProducts([{ make: "", color: "", frame: "", lenses: "" }]);
     setTotalCharges(0);
     setDeposit(0);
     setBalance(0);
@@ -223,7 +239,10 @@ export default function NewOrder() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Customer Name */}
               <div>
-                <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="customerName"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Customer Name <span className="text-red-600">*</span>
                 </label>
                 <select
@@ -241,7 +260,10 @@ export default function NewOrder() {
 
               {/* Customer Address */}
               <div>
-                <label htmlFor="customerAddress" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="customerAddress"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Customer Address
                 </label>
                 <input
@@ -256,7 +278,10 @@ export default function NewOrder() {
 
               {/* Order Date */}
               <div>
-                <label htmlFor="orderDate" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="orderDate"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Order Date <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
@@ -275,7 +300,10 @@ export default function NewOrder() {
 
               {/* Delivery Date */}
               <div>
-                <label htmlFor="deliveryDate" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="deliveryDate"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Delivery Date <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
@@ -294,7 +322,10 @@ export default function NewOrder() {
 
               {/* Reference */}
               <div>
-                <label htmlFor="reference" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="reference"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Reference
                 </label>
                 <input
@@ -308,9 +339,13 @@ export default function NewOrder() {
               </div>
 
               {/* Doctor Name - Conditional Field */}
-              {renderIfEnabled('doctorName', (
+              {renderIfEnabled(
+                "doctorName",
                 <div>
-                  <label htmlFor="doctorName" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="doctorName"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Doctor Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -319,15 +354,18 @@ export default function NewOrder() {
                     name="doctorName"
                     value={formData.doctorName}
                     onChange={handleInputChange}
-                    required={isFieldEnabled('doctorName')}
+                    required={isFieldEnabled("doctorName")}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                   />
                 </div>
-              ))}
+              )}
 
               {/* Order Type */}
               <div>
-                <label htmlFor="orderType" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="orderType"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Order Type <span className="text-red-600">*</span>
                 </label>
                 <select
@@ -346,7 +384,10 @@ export default function NewOrder() {
 
               {/* Sales Person */}
               <div>
-                <label htmlFor="salesPerson" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="salesPerson"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Sales Person <span className="text-red-600">*</span>
                 </label>
                 <select
@@ -367,10 +408,13 @@ export default function NewOrder() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             {/* Right Eye */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Right Eye</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Right Eye
+              </h3>
               <div className="grid grid-cols-3 gap-3">
                 {/* Right Sphere */}
-                {renderIfPrescriptionEnabled('rightSphere', (
+                {renderIfPrescriptionEnabled(
+                  "rightSphere",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Sphere <span className="text-red-500">*</span>
@@ -378,15 +422,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.sphere}
-                      onChange={(e) => handleEyeChange('rightEye', 'sphere', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightSphere')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "sphere", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightSphere")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Cylinder */}
-                {renderIfPrescriptionEnabled('rightCylinder', (
+                {renderIfPrescriptionEnabled(
+                  "rightCylinder",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Cylinder <span className="text-red-500">*</span>
@@ -394,15 +441,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.cylinder}
-                      onChange={(e) => handleEyeChange('rightEye', 'cylinder', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightCylinder')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "cylinder", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightCylinder")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Axis */}
-                {renderIfPrescriptionEnabled('rightAxis', (
+                {renderIfPrescriptionEnabled(
+                  "rightAxis",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Axis <span className="text-red-500">*</span>
@@ -410,15 +460,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.axis}
-                      onChange={(e) => handleEyeChange('rightEye', 'axis', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightAxis')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "axis", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightAxis")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Addition */}
-                {renderIfPrescriptionEnabled('rightAddition', (
+                {renderIfPrescriptionEnabled(
+                  "rightAddition",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Addition <span className="text-red-500">*</span>
@@ -426,15 +479,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.addition}
-                      onChange={(e) => handleEyeChange('rightEye', 'addition', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightAddition')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "addition", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightAddition")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Diameter */}
-                {renderIfPrescriptionEnabled('rightDiameter', (
+                {renderIfPrescriptionEnabled(
+                  "rightDiameter",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Diameter <span className="text-red-500">*</span>
@@ -442,15 +498,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.dia}
-                      onChange={(e) => handleEyeChange('rightEye', 'dia', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightDiameter')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "dia", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightDiameter")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Base Curve */}
-                {renderIfPrescriptionEnabled('rightBaseCurve', (
+                {renderIfPrescriptionEnabled(
+                  "rightBaseCurve",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Base Curve <span className="text-red-500">*</span>
@@ -458,69 +517,89 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.rightEye.bc}
-                      onChange={(e) => handleEyeChange('rightEye', 'bc', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightBaseCurve')}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "bc", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightBaseCurve")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Segment */}
-                {renderIfPrescriptionEnabled('rightSegment', (
+                {renderIfPrescriptionEnabled(
+                  "rightSegment",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Segment <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.rightEye.segment || ''}
-                      onChange={(e) => handleEyeChange('rightEye', 'segment', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightSegment')}
+                      value={formData.rightEye.segment || ""}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "segment", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightSegment")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Pupillary Distance */}
-                {renderIfPrescriptionEnabled('rightPupillaryDistance', (
+                {renderIfPrescriptionEnabled(
+                  "rightPupillaryDistance",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Pupillary Distance <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.rightEye.pupillaryDistance || ''}
-                      onChange={(e) => handleEyeChange('rightEye', 'pupillaryDistance', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightPupillaryDistance')}
+                      value={formData.rightEye.pupillaryDistance || ""}
+                      onChange={(e) =>
+                        handleEyeChange(
+                          "rightEye",
+                          "pupillaryDistance",
+                          e.target.value
+                        )
+                      }
+                      required={isPrescriptionFieldEnabled(
+                        "rightPupillaryDistance"
+                      )}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Right Prism */}
-                {renderIfPrescriptionEnabled('rightPrism', (
+                {renderIfPrescriptionEnabled(
+                  "rightPrism",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Prism <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.rightEye.prism || ''}
-                      onChange={(e) => handleEyeChange('rightEye', 'prism', e.target.value)}
-                      required={isPrescriptionFieldEnabled('rightPrism')}
+                      value={formData.rightEye.prism || ""}
+                      onChange={(e) =>
+                        handleEyeChange("rightEye", "prism", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("rightPrism")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
             {/* Left Eye */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Left Eye</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Left Eye
+              </h3>
               <div className="grid grid-cols-3 gap-3">
                 {/* Left Sphere */}
-                {renderIfPrescriptionEnabled('leftSphere', (
+                {renderIfPrescriptionEnabled(
+                  "leftSphere",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Sphere <span className="text-red-500">*</span>
@@ -528,15 +607,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.sphere}
-                      onChange={(e) => handleEyeChange('leftEye', 'sphere', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftSphere')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "sphere", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftSphere")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Cylinder */}
-                {renderIfPrescriptionEnabled('leftCylinder', (
+                {renderIfPrescriptionEnabled(
+                  "leftCylinder",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Cylinder <span className="text-red-500">*</span>
@@ -544,15 +626,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.cylinder}
-                      onChange={(e) => handleEyeChange('leftEye', 'cylinder', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftCylinder')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "cylinder", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftCylinder")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Axis */}
-                {renderIfPrescriptionEnabled('leftAxis', (
+                {renderIfPrescriptionEnabled(
+                  "leftAxis",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Axis <span className="text-red-500">*</span>
@@ -560,15 +645,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.axis}
-                      onChange={(e) => handleEyeChange('leftEye', 'axis', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftAxis')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "axis", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftAxis")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Addition */}
-                {renderIfPrescriptionEnabled('leftAddition', (
+                {renderIfPrescriptionEnabled(
+                  "leftAddition",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Addition <span className="text-red-500">*</span>
@@ -576,15 +664,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.addition}
-                      onChange={(e) => handleEyeChange('leftEye', 'addition', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftAddition')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "addition", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftAddition")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Diameter */}
-                {renderIfPrescriptionEnabled('leftDiameter', (
+                {renderIfPrescriptionEnabled(
+                  "leftDiameter",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Diameter <span className="text-red-500">*</span>
@@ -592,15 +683,18 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.dia}
-                      onChange={(e) => handleEyeChange('leftEye', 'dia', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftDiameter')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "dia", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftDiameter")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Base Curve */}
-                {renderIfPrescriptionEnabled('leftBaseCurve', (
+                {renderIfPrescriptionEnabled(
+                  "leftBaseCurve",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Base Curve <span className="text-red-500">*</span>
@@ -608,69 +702,91 @@ export default function NewOrder() {
                     <input
                       type="text"
                       value={formData.leftEye.bc}
-                      onChange={(e) => handleEyeChange('leftEye', 'bc', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftBaseCurve')}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "bc", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftBaseCurve")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Segment */}
-                {renderIfPrescriptionEnabled('leftSegment', (
+                {renderIfPrescriptionEnabled(
+                  "leftSegment",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Segment <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.leftEye.segment || ''}
-                      onChange={(e) => handleEyeChange('leftEye', 'segment', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftSegment')}
+                      value={formData.leftEye.segment || ""}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "segment", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftSegment")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Pupillary Distance */}
-                {renderIfPrescriptionEnabled('leftPupillaryDistance', (
+                {renderIfPrescriptionEnabled(
+                  "leftPupillaryDistance",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Pupillary Distance <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.leftEye.pupillaryDistance || ''}
-                      onChange={(e) => handleEyeChange('leftEye', 'pupillaryDistance', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftPupillaryDistance')}
+                      value={formData.leftEye.pupillaryDistance || ""}
+                      onChange={(e) =>
+                        handleEyeChange(
+                          "leftEye",
+                          "pupillaryDistance",
+                          e.target.value
+                        )
+                      }
+                      required={isPrescriptionFieldEnabled(
+                        "leftPupillaryDistance"
+                      )}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
 
                 {/* Left Prism */}
-                {renderIfPrescriptionEnabled('leftPrism', (
+                {renderIfPrescriptionEnabled(
+                  "leftPrism",
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Prism <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.leftEye.prism || ''}
-                      onChange={(e) => handleEyeChange('leftEye', 'prism', e.target.value)}
-                      required={isPrescriptionFieldEnabled('leftPrism')}
+                      value={formData.leftEye.prism || ""}
+                      onChange={(e) =>
+                        handleEyeChange("leftEye", "prism", e.target.value)
+                      }
+                      required={isPrescriptionFieldEnabled("leftPrism")}
                       className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
                     />
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
             {/* Payments */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Payments</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Payments
+              </h3>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="totalCharges" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="totalCharges"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Total Charges <span className="text-red-600">*</span>
                   </label>
                   <input
@@ -682,21 +798,29 @@ export default function NewOrder() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="deposit" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="deposit"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Deposit
                   </label>
                   <input
                     type="number"
                     id="deposit"
                     value={deposit}
-                    onChange={(e) => setDeposit(parseFloat(e.target.value) || 0)}
+                    onChange={(e) =>
+                      setDeposit(parseFloat(e.target.value) || 0)
+                    }
                     step="0.01"
                     min="0"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                   />
                 </div>
                 <div>
-                  <label htmlFor="balance" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="balance"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Balance
                   </label>
                   <input
@@ -714,9 +838,13 @@ export default function NewOrder() {
           {/* Remarks and Products */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
             {/* Remarks - Conditional Field */}
-            {renderIfEnabled('remarks', (
+            {renderIfEnabled(
+              "remarks",
               <div className="mb-6">
-                <label htmlFor="remarks" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="remarks"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Remarks <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -724,13 +852,13 @@ export default function NewOrder() {
                   name="remarks"
                   value={formData.remarks}
                   onChange={handleInputChange}
-                  required={isFieldEnabled('remarks')}
+                  required={isFieldEnabled("remarks")}
                   rows="4"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                   placeholder="Enter any additional notes..."
                 />
               </div>
-            ))}
+            )}
 
             {/* Add Products Section */}
             <div className="border-t-2 border-dashed border-gray-300 pt-6">
@@ -746,9 +874,13 @@ export default function NewOrder() {
               {/* Product Items Container */}
               <div className="mt-6 space-y-4">
                 {products.map((product, index) => (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
+                  >
                     {/* Make - Conditional Field */}
-                    {renderIfEnabled('make', (
+                    {renderIfEnabled(
+                      "make",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Make <span className="text-red-500">*</span>
@@ -756,15 +888,18 @@ export default function NewOrder() {
                         <input
                           type="text"
                           value={product.make}
-                          onChange={(e) => updateProduct(index, 'make', e.target.value)}
-                          required={isFieldEnabled('make')}
+                          onChange={(e) =>
+                            updateProduct(index, "make", e.target.value)
+                          }
+                          required={isFieldEnabled("make")}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
 
                     {/* Color - Conditional Field */}
-                    {renderIfEnabled('color', (
+                    {renderIfEnabled(
+                      "color",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Color <span className="text-red-500">*</span>
@@ -772,15 +907,18 @@ export default function NewOrder() {
                         <input
                           type="text"
                           value={product.color}
-                          onChange={(e) => updateProduct(index, 'color', e.target.value)}
-                          required={isFieldEnabled('color')}
+                          onChange={(e) =>
+                            updateProduct(index, "color", e.target.value)
+                          }
+                          required={isFieldEnabled("color")}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
 
                     {/* Frame - Conditional Field */}
-                    {renderIfEnabled('frame', (
+                    {renderIfEnabled(
+                      "frame",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Frame <span className="text-red-500">*</span>
@@ -788,15 +926,18 @@ export default function NewOrder() {
                         <input
                           type="text"
                           value={product.frame}
-                          onChange={(e) => updateProduct(index, 'frame', e.target.value)}
-                          required={isFieldEnabled('frame')}
+                          onChange={(e) =>
+                            updateProduct(index, "frame", e.target.value)
+                          }
+                          required={isFieldEnabled("frame")}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
 
                     {/* Lenses - Conditional Field */}
-                    {renderIfEnabled('lenses', (
+                    {renderIfEnabled(
+                      "lenses",
                       <div className="flex items-center gap-2">
                         <div className="flex-1">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -805,8 +946,10 @@ export default function NewOrder() {
                           <input
                             type="text"
                             value={product.lenses}
-                            onChange={(e) => updateProduct(index, 'lenses', e.target.value)}
-                            required={isFieldEnabled('lenses')}
+                            onChange={(e) =>
+                              updateProduct(index, "lenses", e.target.value)
+                            }
+                            required={isFieldEnabled("lenses")}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                           />
                         </div>
@@ -821,10 +964,11 @@ export default function NewOrder() {
                           </button>
                         )}
                       </div>
-                    ))}
+                    )}
 
                     {/* Frame Size - Conditional Field */}
-                    {renderIfEnabled('frameSize', (
+                    {renderIfEnabled(
+                      "frameSize",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Frame Size <span className="text-red-500">*</span>
@@ -832,15 +976,21 @@ export default function NewOrder() {
                         <input
                           type="text"
                           value={formData.frameSize}
-                          onChange={(e) => setFormData(prev => ({ ...prev, frameSize: e.target.value }))}
-                          required={isFieldEnabled('frameSize')}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              frameSize: e.target.value,
+                            }))
+                          }
+                          required={isFieldEnabled("frameSize")}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
 
                     {/* Frame Price - Conditional Field */}
-                    {renderIfEnabled('framePrice', (
+                    {renderIfEnabled(
+                      "framePrice",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Frame Price <span className="text-red-500">*</span>
@@ -848,17 +998,23 @@ export default function NewOrder() {
                         <input
                           type="number"
                           value={formData.framePrice}
-                          onChange={(e) => setFormData(prev => ({ ...prev, framePrice: e.target.value }))}
-                          required={isFieldEnabled('framePrice')}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              framePrice: e.target.value,
+                            }))
+                          }
+                          required={isFieldEnabled("framePrice")}
                           step="0.01"
                           min="0"
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
 
                     {/* Lenses Price - Conditional Field */}
-                    {renderIfEnabled('lensesPrice', (
+                    {renderIfEnabled(
+                      "lensesPrice",
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Lenses Price <span className="text-red-500">*</span>
@@ -866,14 +1022,19 @@ export default function NewOrder() {
                         <input
                           type="number"
                           value={formData.lensesPrice}
-                          onChange={(e) => setFormData(prev => ({ ...prev, lensesPrice: e.target.value }))}
-                          required={isFieldEnabled('lensesPrice')}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              lensesPrice: e.target.value,
+                            }))
+                          }
+                          required={isFieldEnabled("lensesPrice")}
                           step="0.01"
                           min="0"
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
                         />
                       </div>
-                    ))}
+                    )}
                   </div>
                 ))}
               </div>
