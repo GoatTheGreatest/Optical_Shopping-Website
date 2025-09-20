@@ -16,17 +16,23 @@ export default function CustomerPage() {
   });
   const [editingId, setEditingId] = useState(null);
   const [activeMenuId, setActiveMenuId] = useState(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
   const menuRef = useRef(null);
 
   useEffect(() => {
     function onDocClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setActiveMenuId(null);
-      }
+      if (!activeMenuId) return;
+      const wrapper = document.querySelector(
+        `[data-menu-id="${activeMenuId}"]`
+      );
+      const dropdown = document.querySelector('[data-menu-dropdown="true"]');
+      if (wrapper && wrapper.contains(e.target)) return;
+      if (dropdown && dropdown.contains(e.target)) return;
+      setActiveMenuId(null);
     }
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
-  }, []);
+  }, [activeMenuId]);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -84,8 +90,18 @@ export default function CustomerPage() {
     setDrawerOpen(false);
   };
 
-  const handleMenuToggle = (id) => {
-    setActiveMenuId((prev) => (prev === id ? null : id));
+  const handleMenuToggle = (e, id) => {
+    e.stopPropagation();
+    if (activeMenuId === id) {
+      setActiveMenuId(null);
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dropdownWidth = 144;
+    const left = rect.right - dropdownWidth + window.scrollX;
+    const top = rect.bottom + 8 + window.scrollY;
+    setMenuPos({ top, left });
+    setActiveMenuId(id);
   };
 
   const handleEdit = (id) => {
@@ -254,9 +270,13 @@ export default function CustomerPage() {
                         {c.address}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        <div className="relative inline-block" ref={menuRef}>
+                        <div
+                          className="relative inline-block"
+                          data-menu-id={c.id}
+                          ref={menuRef}
+                        >
                           <button
-                            onClick={() => handleMenuToggle(c.id)}
+                            onClick={(e) => handleMenuToggle(e, c.id)}
                             className="p-2 rounded-full hover:bg-gray-100 focus:outline-none"
                           >
                             <svg
@@ -271,7 +291,15 @@ export default function CustomerPage() {
                           </button>
 
                           {activeMenuId === c.id && (
-                            <div className="absolute right-0 mt-2 w-36 bg-white border rounded-md shadow-md z-20">
+                            <div
+                              data-menu-dropdown="true"
+                              style={{
+                                position: "fixed",
+                                top: menuPos.top,
+                                left: menuPos.left,
+                              }}
+                              className="mt-2 w-36 bg-white border rounded-md shadow-md z-50"
+                            >
                               <button
                                 onClick={() => handleEdit(c.id)}
                                 className="w-full text-left px-3 py-2 hover:bg-gray-50"
