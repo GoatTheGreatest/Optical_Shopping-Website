@@ -46,7 +46,7 @@ export default function InventoryMenu() {
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="mr-2 p-4 border-green-400 border rounded-4xl hover:bg-green-600 hover:cursor-pointer text-white"
+        className="mr-2 px-4 py-2 border-green-400 border rounded-4xl hover:bg-green-600 hover:cursor-pointer text-white"
         onClick={() => setOpen((prev) => !prev)}
         role="button"
         aria-haspopup="menu"

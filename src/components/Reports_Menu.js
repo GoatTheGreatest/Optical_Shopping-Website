@@ -38,9 +38,14 @@ export default function ReportsMenu() {
   }
 
   return (
-    <div className="relative inline-block" ref={menuRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      className="relative inline-block"
+      ref={menuRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
-        className="mr-2 p-4 border-green-400 border-1 rounded-4xl hover:bg-green-600 hover:cursor-pointer text-white"
+        className="mr-2 px-4 py-2 border-green-400 border-1 rounded-4xl hover:bg-green-600 hover:cursor-pointer text-white"
         onClick={() => setOpen((p) => !p)}
         role="button"
         aria-haspopup="menu"
@@ -52,22 +57,34 @@ export default function ReportsMenu() {
         <div className="absolute left-0 mt-2 w-56 bg-white border rounded shadow-lg z-10">
           <ul className="py-1 text-black">
             <li>
-              <Link href="/reports/sales" className="block px-4 py-2 text-sm hover:bg-gray-100">
+              <Link
+                href="/reports/sales"
+                className="block px-4 py-2 text-sm hover:bg-gray-100"
+              >
                 Sales
               </Link>
             </li>
             <li>
-              <Link href="/reports/purchases" className="block px-4 py-2 text-sm hover:bg-gray-100">
+              <Link
+                href="/reports/purchases"
+                className="block px-4 py-2 text-sm hover:bg-gray-100"
+              >
                 Purchases
               </Link>
             </li>
             <li>
-              <Link href="/reports/collection" className="block px-4 py-2 text-sm hover:bg-gray-100">
+              <Link
+                href="/reports/collection"
+                className="block px-4 py-2 text-sm hover:bg-gray-100"
+              >
                 Collection
               </Link>
             </li>
             <li>
-              <Link href="/reports/receivable" className="block px-4 py-2 text-sm hover:bg-gray-100">
+              <Link
+                href="/reports/receivable"
+                className="block px-4 py-2 text-sm hover:bg-gray-100"
+              >
                 Receivable
               </Link>
             </li>
@@ -80,5 +97,3 @@ export default function ReportsMenu() {
     </div>
   );
 }
-
-
