@@ -38,11 +38,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Copyright Calim
 
 <<<<<<< HEAD
-This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
+This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest), Romi29636(Computer_Engineer) a.k.a Roman_Javed
 
 # Permission is hereby NOT granted to copy, modify, distribute,
 
-This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
+This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest), Romi29636(Computer_Engineer) a.k.a Roman_Javed
 
 Permission is hereby NOT granted to copy, modify, distribute,
 
