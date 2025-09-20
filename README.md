@@ -36,14 +36,15 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ## Copyright Calim
+
 <<<<<<< HEAD
-This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
+This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
 
-Permission is hereby NOT granted to copy, modify, distribute, 
-=======
+# Permission is hereby NOT granted to copy, modify, distribute,
 
-This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
+This Project was created by GoatTheGreatest(Web_Developer & Computer_Engineer) a.k.a Abdul_Raheem, Romi29636(Computer_Engineer) a.k.a Roman_Javed and Arslan-Nafees(Web_Developer,Computer_Engineer & Prompt_Engineer) a.k.a Arslan_Nafees Copyright © 2025 ,Arslan Nafees(Arslan-Nafees),Abdul Raheem(GoatTheGreatest)
 
 Permission is hereby NOT granted to copy, modify, distribute,
->>>>>>> 69872e6 (Added new pages like Brand and create Brand with many componenets)
-or use this software without explicit written permission.
+
+> > > > > > > 69872e6 (Added new pages like Brand and create Brand with many componenets)
+> > > > > > > or use this software without explicit written permission.
